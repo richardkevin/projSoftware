@@ -15,6 +15,34 @@ import javax.persistence.LockModeType;
  */
 public class LojaDAO {
 
+    public long inclui(Loja loja) {
+      	try {
+            EntityManager em = JPAUtil.getEntityManager();
+            em.persist(loja);
+            return loja.getId();
+        }
+        catch(RuntimeException e) {
+            throw new InfraestruturaException(e);
+        }
+    }
+
+    public void altera(Loja umaLoja) throws ObjetoNaoEncontradoException {
+        try {
+            EntityManager em = JPAUtil.getEntityManager();
+
+            Loja loja = em.find(Loja.class, umaLoja.getId(), LockModeType.PESSIMISTIC_WRITE);
+
+            if(loja == null)
+            {	throw new ObjetoNaoEncontradoException();
+            }
+
+            em.merge(umaLoja);
+        }
+        catch(RuntimeException e) {
+            throw new InfraestruturaException(e);
+        }
+    }
+
     public Loja recuperaUmaLoja(long id) throws ObjetoNaoEncontradoException {
         try {
             EntityManager em = JPAUtil.getEntityManager();

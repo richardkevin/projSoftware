@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -21,16 +23,24 @@ public class Produto implements Serializable {
     private Long id;
     private String nome;
     private int preco;
-    private int quantidade;
+    @ManyToOne
+    @JoinColumn(name="id_loja", nullable=false)
+    private Loja loja;
 
     public Produto() {
     }
 
-    public Produto(Long id, String nome, int preco, int quantidade) {
+    public Produto(Long id, String nome, int preco, Loja loja) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
-        this.quantidade = quantidade;
+        this.loja = loja;
+    }
+
+    public Produto(String nome, int preco, Loja loja) {
+        this.nome = nome;
+        this.preco = preco;
+        this.loja = loja;
     }
 
     public Long getId() {
@@ -57,12 +67,11 @@ public class Produto implements Serializable {
         this.preco = preco;
     }
 
-    public int getQuantidade() {
-        return quantidade;
+    public Loja getLoja() {
+        return loja;
     }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+    public void setLoja(Loja loja) {
+        this.loja = loja;
     }
-
 }

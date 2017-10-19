@@ -13,41 +13,94 @@ import java.util.Scanner;
  * @author richard
  */
 public class CallAnotherService {
-    public static void main(String[] args) throws LojaNaoEncontradaException, ProdutoNaoEncontradoException {
+    public static void main(String[] args) throws LojaNaoEncontradaException, ProdutoNaoEncontradoException, ObjetoNaoEncontradoException {
         Scanner teclado = new Scanner(System.in);
-        int opcao;
-        long idLojaSelecionada;
+        int opcao, preco;
+        Long lojaId, prodId;
+        String nome;
+        Produto produto;
+        Loja loja;
 
         LojaAppService lojaAppService = new LojaAppService();
+        ProdutoAppService produtoAppService = new ProdutoAppService();
 
         do {
             menuPrincipal();
-            opcao = teclado.nextInt();
+            opcao = Integer.parseInt(teclado.nextLine());
 
             switch (opcao) {
-                case 0: 
+                case 0:
                     System.out.println("Obrigado!");
                     break;
                 case 1: {
-                    List<Loja> lojas = lojaAppService.recuperaLojas();
+                    System.out.println("Informe o nome do produto:");
+                    nome = teclado.nextLine();
+                    System.out.println("Informe o preco do produto:");
+                    preco = Integer.parseInt(teclado.nextLine());
+                    System.out.println("Informe o loja do produto:");
+                    lojaId = Long.parseLong(teclado.nextLine());
 
-                    for (Loja loja : lojas) {
-                        System.out.println("Id = " + loja.getId() + "  Nome = " + loja.getNome());
-                    }
+                    loja = lojaAppService.recuperaUmaLoja(lojaId);
+                    produto = new Produto(nome, preco, loja);
+
+                    long numero = produtoAppService.inclui(produto);
+
+                    System.out.println(produto.getNome() + " incluido com sucesso!");
                     break;
                 }
                 case 2:
+                    System.out.println("Informe o nome da loja:");
+                    nome = teclado.nextLine();
+
+                    loja = new Loja(nome);
+
+                    lojaAppService.inclui(loja);
+
+                    System.out.println(loja.getNome() + " incluido com sucesso!");
+                    break;
+                case 3:
+                    List<Produto> produtos = produtoAppService.recuperaProdutos();
+
+                    for (Produto p : produtos) {
+                        System.out.println(
+                          "Id: " + p.getId() +
+                          "  Nome: " + p.getNome());
+                    }
+                    break;
+                case 4:
+                    List<Loja> lojas = lojaAppService.recuperaLojas();
+
+                    for (Loja l : lojas) {
+                        System.out.println(
+                                "Id: " + l.getId() +
+                                "  Nome: " + l.getNome());
+                    }
+                    break;
+                case 5: {
                     System.out.println("Qual loja deseja selecionar?");
-                    idLojaSelecionada = teclado.nextLong();
+                    lojaId = Long.parseLong(teclado.nextLine());
+                    loja = lojaAppService.recuperaUmaLoja(lojaId);
+
+                    System.out.println("Selecione o produto ?");
+                    prodId = Long.parseLong(teclado.nextLine());
+                    produto = produtoAppService.recuperaUmProduto(prodId);
+
+                    System.out.println("Qual o preço do produto?");
+                    preco = Integer.parseInt(teclado.nextLine());
+
+                    produto.setPreco(preco);
+
                     try {
-                        Loja loja = lojaAppService.recuperaUmaLoja(idLojaSelecionada);
-                        System.out.println("Loja selecionada: " + loja.getNome());
-                        menuLoja(loja);
+                      lojaAppService.altera(loja, produto);
                     }
-                    catch (LojaNaoEncontradaException e){
-                        System.out.println("Loja não encontrada");
+                    catch(LojaNaoEncontradaException e) {
+                        System.out.println('\n' + e.getMessage());
                     }
-                        
+
+                    System.out.println(produto.getNome() + " adicionado com sucesso.");
+                    break;
+
+                }
                 default:
                     System.out.println("Opção inválida!");
             }
@@ -58,54 +111,12 @@ public class CallAnotherService {
     public static void menuPrincipal() {
         System.out.println("O que voce deseja fazer?");
         System.out.println("0. Sair");
-        System.out.println("1. Listar Lojas");
-        System.out.println("2. Escolher Loja");
+        System.out.println("1. Cadastrar um produto");
+        System.out.println("2. Cadastrar uma loja");
+        System.out.println("3. Listar produtos");
+        System.out.println("4. Listar lojas");
+        System.out.println("5. Alterar preço de um produto na loja");
+        System.out.println("\n");
     }
-
-    public static void menuLoja(Loja loja) throws ProdutoNaoEncontradoException {
-        Scanner teclado = new Scanner(System.in);
-        int opcao;
-        long idProduto;
-
-        ProdutoAppService produtoAppService = new ProdutoAppService();
-
-        do {
-            System.out.println("Bem vindo ao "+ loja.getNome());
-            System.out.println("O que voce deseja fazer?");
-            System.out.println("0. Sair");
-            System.out.println("1. Listar Produtos");
-            System.out.println("2. Consultar Produto");
-
-            opcao = teclado.nextInt();
-
-            switch (opcao) {
-                case 0: 
-                    System.out.println("Obrigado!");
-                    break;
-                case 1: {
-                    List<Produto> produtos = produtoAppService.recuperaProdutos();
-
-                    for (Produto produto : produtos) {
-                        System.out.println("Id: " + produto.getId() + "  Nome: " + produto.getNome() + "\n");
-                    }
-                    break;
-                }
-                case 2:
-                    System.out.println("Qual produto?");
-                    idProduto = teclado.nextLong();
-                    Produto produto = produtoAppService.recuperaUmProduto(idProduto);
-                    System.out.println(
-                        "Id: " + produto.getId() +
-                        "  Produto: " + produto.getNome() + 
-                        "  Preco: " + produto.getPreco() +
-                        "  Quantidade: " + produto.getQuantidade()
-                    );
-                default:
-                    System.out.println("Opção inválida");
-            }
-        } while (opcao != 0);
-
-    }
-
 
 }

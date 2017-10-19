@@ -6,11 +6,13 @@
 package callanotherservice;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -25,15 +27,20 @@ public class Loja implements Serializable {
     @GeneratedValue
     private Long id;
     private String nome;
-    private String endereco;
+    @OneToMany(mappedBy = "loja")
+    private List<Produto> produtos;
 
     public Loja() {
     }
 
-    public Loja(Long id, String nome, String endereco) {
+    public Loja(Long id, String nome, List<Produto> produtos) {
         this.id = id;
         this.nome = nome;
-        this.endereco = endereco;
+        this.produtos = produtos;
+    }
+
+    public Loja(String nome) {
+        this.nome = nome;
     }
 
     public Long getId() {
@@ -52,13 +59,11 @@ public class Loja implements Serializable {
         this.nome = nome;
     }
 
-    public String getEndereco() {
-        return endereco;
+    public List<Produto> getProdutos() {
+        return produtos;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
-
-    
 }

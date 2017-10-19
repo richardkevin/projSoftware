@@ -9,6 +9,7 @@ public class JPAUtil {
     private static EntityManagerFactory emf;
     private static final ThreadLocal<EntityManager> threadEntityManager = new ThreadLocal<EntityManager>();
     private static final ThreadLocal<EntityTransaction> threadTransaction = new ThreadLocal<EntityTransaction>();
+    public static ThreadLocal<Integer> semaforo = new ThreadLocal<Integer>();
 
     static {
         try {
@@ -24,16 +25,22 @@ public class JPAUtil {
         //System.out.println("Vai criar transacao");
 
         EntityTransaction tx = threadTransaction.get();
+        if ( semaforo.get() == null ) {
+            semaforo.set(1);
+        }
+        else {
+            semaforo.set(semaforo.get() + 1);
+        }
         try {
             if (tx == null) {
                 tx = getEntityManager().getTransaction();
                 tx.begin();
                 threadTransaction.set(tx);
-                //System.out.println("Criou transacao");
+                // System.out.println("Criou transacao");
             }
             else
             {
-                System.out.println("Nao criou transacao");
+                // System.out.println("Nao criou transacao");
             }
         }
         catch (RuntimeException ex)
@@ -64,13 +71,20 @@ public class JPAUtil {
     public static void commitTransaction()
     {
         EntityTransaction tx = threadTransaction.get();
-        try
-        {
-            if ( tx != null && tx.isActive()) {
-                tx.commit();
-//                System.out.println("Comitou transacao");
+        try {
+            if( semaforo.get() == 1) {
+                if ( tx != null && tx.isActive()) {
+                    tx.commit();
+                    //System.out.println("Comitou transacao");
+                }
+                threadTransaction.set(null);
             }
-            threadTransaction.set(null);
+            if(!semaforo.equals(null)) {
+                semaforo.set(semaforo.get() - 1);
+                if(semaforo.get() == 0){
+                    semaforo.set(null);
+                }
+            }
         }
         catch (RuntimeException ex) {
             try {
@@ -104,17 +118,19 @@ public class JPAUtil {
     public static void closeEntityManager() {
         //System.out.println("Vai fechar sess�o");
         try {
-            EntityManager s = threadEntityManager.get();
-            threadEntityManager.set(null);
-            if (s != null && s.isOpen()) {
-                s.close();
+            if(semaforo.get() == null) {
+                EntityManager s = threadEntityManager.get();
+                threadEntityManager.set(null);
+                if (s != null && s.isOpen()) {
+                    s.close();
                     //System.out.println("Fechou a sess�o");
-            }
+                }
 
-            EntityTransaction tx = threadTransaction.get();
-            if ( tx != null && tx.isActive()) {
-                rollbackTransaction();
-                throw new RuntimeException("EntityManager sendo fechado " + "com transa��o ativa.");
+                EntityTransaction tx = threadTransaction.get();
+                if ( tx != null && tx.isActive()) {
+                    rollbackTransaction();
+                    throw new RuntimeException("EntityManager sendo fechado com transacao ativa.");
+                }
             }
         }
         catch (RuntimeException ex) {
