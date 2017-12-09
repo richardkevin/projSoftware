@@ -5,9 +5,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <a href="sign-in">Sign In</a>
-    <a href="login">Log In</a>
-    <a href="add-project">Add Project</a>
+    <h1>Olá <span th:text="${session.userLogged} ? ${session.userLogged.getName()} : ''" /> !</h1>
+
+    <div th:unless="${session.userLogged}">
+        <a href="sign-in">Sign In</a>
+        <a href="login">Log In</a>
+    </div>
+
+    <div th:if="${session.userLogged}">
+        <a href="logout">Logout</a>
+        <a href="add-project">Add Project</a>
+    </div>
     
 </body>
 </html>

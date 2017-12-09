@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import dac.cma.repository.UserRepository;
+import javax.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -24,7 +25,7 @@ public class HomeController {
     private ProjectRepository projectRepository;
 
     @RequestMapping("/")
-    public String home() {        
+    public String home() {
         return "index";
     }
 
@@ -41,24 +42,34 @@ public class HomeController {
     }
     
     @GetMapping("/login")
-    public String login() {
+    public String login(HttpSession session) {
+        if (session.getAttribute("userLogged") != null) {
+            return "redirect:/";
+        }
         return "login";
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
-        Long userId = null;
+    public String login(HttpSession session, @RequestParam String username, @RequestParam String password) {
         for (Student student : studentRepository.findAll()) {
             if (student.getUsername().equals(username)) {
-                userId = student.getId();
+                Long userId = student.getId();
                 Student s = studentRepository.findOne(userId);
                 if (s.getPassword().equals(password)) {
-                    System.out.println("bem vindo");
+                    session.setAttribute("userLogged", s);
+                    session.setAttribute("loginError", null);
+                    return "redirect:/";
                 }
-                break;
             }
         }
-        return "redirect:/";
+        session.setAttribute("loginError", "Usuário ou senha incorretos");
+        return "redirect:/login";
+    }
+
+    @RequestMapping("logout")
+    public String logout(HttpSession session) {
+      session.invalidate();
+      return "redirect:/login";
     }
 
     @GetMapping("/add-project")

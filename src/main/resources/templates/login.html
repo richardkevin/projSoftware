@@ -17,5 +17,6 @@ and open the template in the editor.
             <p>password: <input type="text" name="password" /></p>
             <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
         </form>
+        <span th:text="${session.loginError} ? ${session.loginError} : ''" />
     </body>
 </html>
