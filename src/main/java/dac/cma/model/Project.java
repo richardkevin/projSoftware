@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dac.cma.model;
 
 import javax.persistence.Entity;
@@ -12,10 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-/**
- *
- * @author richard
- */
 @Entity
 public class Project {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -24,15 +15,18 @@ public class Project {
     @OneToOne
     @JoinColumn(name = "student_id")
     private Student student;
+    @OneToOne
+    @JoinColumn(name = "orientador_id")
+    private Teacher orientador;
     private String description;
 
-    public Project() {
-    }
+    public Project() {}
 
-    public Project(Long id, String name, Student student, String description) {
+    public Project(Long id, String name, Student student, Teacher orientador, String description) {
         this.id = id;
         this.name = name;
         this.student = student;
+        this.orientador = orientador;
         this.description = description;
     }
 
@@ -67,5 +61,12 @@ public class Project {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
+    public Teacher getOrientador() {
+        return orientador;
+    }
+
+    public void setOrientador(Teacher orientador) {
+        this.orientador = orientador;
+    }
 }
