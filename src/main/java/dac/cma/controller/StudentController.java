@@ -34,18 +34,4 @@ public class StudentController {
 
         return "redirect:/my-projects";
     }
-
-    @GetMapping("/my-projects")
-    public String myProjects(HttpSession session, Model model) {
-        Student userLogged = (Student) session.getAttribute("userLogged");
-        if (userLogged == null) {
-            session.setAttribute("loginError", "Acesso não autorizado");
-            return "redirect:/login";
-        }
-        model.addAttribute(
-            "listProjects",
-            projectService.getAllStudentProjects(userLogged.getId())
-        );
-        return "my-projects";
-    }
 }

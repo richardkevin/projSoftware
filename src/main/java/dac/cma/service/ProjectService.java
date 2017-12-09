@@ -18,4 +18,8 @@ public class ProjectService {
     public void save(Project project) {
         projectDAO.save(project);
     }
+
+    public Object getAllTeacherProjects(Long id) {
+        return projectDAO.getAllTeacherProjects(id);
+    }
 }
