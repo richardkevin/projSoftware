@@ -1,6 +1,8 @@
 package dac.cma.controller;
 
+import dac.cma.model.Project;
 import dac.cma.model.Student;
+import dac.cma.repository.ProjectRepository;
 import dac.cma.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,8 @@ public class HomeController {
     private UserRepository userRepository;
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private ProjectRepository projectRepository;
 
     @RequestMapping("/")
     public String home() {        
@@ -55,6 +59,19 @@ public class HomeController {
             }
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/add-project")
+    public String addProject(Model model) {
+        model.addAttribute("project", new Project());
+        return "add-project";
+    }
+
+    @PostMapping("/save-project")
+    public String addProject(@ModelAttribute Project project) {
+        projectRepository.save(project);
+
+        return "redirect:/my-projects";
     }
 
 //    acessing data
