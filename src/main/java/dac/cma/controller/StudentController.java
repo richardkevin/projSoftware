@@ -17,21 +17,4 @@ public class StudentController {
     @Autowired
     private ProjectService projectService;
 
-
-    @GetMapping("/add-project")
-    public String addProject(HttpSession session, Model model) {
-        if (session.getAttribute("userLogged") == null) {
-            session.setAttribute("loginError", "Acesso não autorizado");
-            return "redirect:/login";
-        }
-        model.addAttribute("project", new Project());
-        return "add-project";
-    }
-
-    @PostMapping("/save-project")
-    public String addProject(@ModelAttribute Project project) {
-        projectService.save(project);
-
-        return "redirect:/my-projects";
-    }
 }

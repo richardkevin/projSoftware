@@ -10,14 +10,20 @@ and open the template in the editor.
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
-    <body>
+    <body th:with="isTeacher=${session.userLogged.getClass().getSimpleName() == 'Teacher'}" >
         <h1>Adicionar Projeto</h1>
 
         <form action="#" th:action="@{/save-project}" th:object="${project}" method="post">
             <input type="hidden" th:field="*{id}" />
             <p>Nome: <input type="text" th:field="*{name}" /></p>
-            <p>Aluno: <input type="text" th:value="${session.userLogged.getName()}" readonly="readonly" /></p>
-            <input type="hidden" th:id="student" th:name="student" th:value="${session.userLogged.getId()}" />
+            <div th:if="@{${isTeacher}}">
+                <p>Orientador: <input type="text" th:value="${session.userLogged.getName()}" readonly="readonly" /></p>
+                <input type="hidden" th:id="orientador" th:name="orientador" th:value="${session.userLogged.getId()}" />
+            </div>
+            <div th:unless="@{${isTeacher}}">
+                <p>Aluno: <input type="text" th:value="${session.userLogged.getName()}" readonly="readonly" /></p>
+                <input type="hidden" th:id="student" th:name="student" th:value="${session.userLogged.getId()}" />
+            </div>
             <p>Descrição: <textarea type="textarea" th:field="*{description}" /></p>
             <input type="submit" value="Submit" /> <input type="reset" value="Reset" />
         </form>

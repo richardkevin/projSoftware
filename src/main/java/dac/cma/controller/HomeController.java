@@ -1,5 +1,6 @@
 package dac.cma.controller;
 
+import dac.cma.model.Project;
 import dac.cma.model.Student;
 import dac.cma.model.Teacher;
 import dac.cma.model.User;
@@ -74,6 +75,23 @@ public class HomeController {
     public String logout(HttpSession session) {
       session.invalidate();
       return "redirect:/login";
+    }
+
+    @GetMapping("/add-project")
+    public String addProject(HttpSession session, Model model) {
+        if (session.getAttribute("userLogged") == null) {
+            session.setAttribute("loginError", "Acesso não autorizado");
+            return "redirect:/login";
+        }
+        model.addAttribute("project", new Project());
+        return "add-project";
+    }
+
+    @PostMapping("/save-project")
+    public String addProject(@ModelAttribute Project project) {
+        projectService.save(project);
+
+        return "redirect:/my-projects";
     }
 
     @GetMapping("/my-projects")
