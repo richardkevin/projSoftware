@@ -1,7 +1,6 @@
 package dac.cma.controller;
 
 import dac.cma.model.Student;
-import dac.cma.model.User;
 import dac.cma.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import dac.cma.repository.UserRepository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
@@ -37,12 +36,27 @@ public class HomeController {
         return "redirect:/login";
     }
     
-//    @RequestMapping("/login")
-//    public String signIn(@RequestParam("username") String username, @RequestParam("password") String password) {
-//        for (Student student : studentRepository.findAll()) {
-//            if student.getUsername
-//        }
-//    }
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestParam String username, @RequestParam String password) {
+        Long userId = null;
+        for (Student student : studentRepository.findAll()) {
+            if (student.getUsername().equals(username)) {
+                userId = student.getId();
+                Student s = studentRepository.findOne(userId);
+                if (s.getPassword().equals(password)) {
+                    System.out.println("bem vindo");
+                }
+                break;
+            }
+        }
+        return "redirect:/";
+    }
+
 //    acessing data
 //    @PostMapping("/add") // Map ONLY GET Requests
 //    public String addNewUser (@ModelAttribute User user) {
