@@ -18,7 +18,9 @@ public class Project {
     @OneToOne
     @JoinColumn(name = "orientador_id")
     private Teacher orientador;
+
     private String description;
+    private float nota;
 
     public Project() {}
 

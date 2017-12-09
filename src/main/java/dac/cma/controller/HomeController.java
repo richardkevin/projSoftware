@@ -53,14 +53,14 @@ public class HomeController {
 
     @PostMapping("/login")
     public String login(HttpSession session, @RequestParam String username, @RequestParam String password) {
-        Student student = studentService.efetuaLogin(username, password);
+        Student student = studentService.login(username, password);
 
         if (student != null) {
             session.setAttribute("userLogged", student);
             session.setAttribute("loginError", null);
             return "redirect:/";
         } else {
-            Teacher teacher = teacherService.efetuaLogin(username, password);
+            Teacher teacher = teacherService.login(username, password);
             if (teacher != null) {
                 session.setAttribute("userLogged", teacher);
                 session.setAttribute("loginError", null);

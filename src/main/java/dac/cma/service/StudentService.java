@@ -10,7 +10,7 @@ public class StudentService {
     @Autowired
     private StudentDAO studentDAO;
 
-    public Student efetuaLogin(String username, String password){
+    public Student login(String username, String password){
         Student s = studentDAO.findStudentByUsername(username);
 
         if (s != null && s.getPassword().equals(password)) {
@@ -21,5 +21,13 @@ public class StudentService {
 
     public void addStudent(Student student) {
         studentDAO.addStudent(student);
+    }
+
+    public void requestAdvisor() {
+        
+    }
+
+    public void editProject() {
+        
     }
 }

@@ -1,16 +1,22 @@
 package dac.cma.model;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Teacher extends User {
     private String titulacao;
+    @ManyToOne
+    @JoinColumn(name="banca_id")
+    private ExaminingBoard board;
     
     public Teacher() {}
 
-    public Teacher(String titulacao, Long id, String name, String username, String password) {
+    public Teacher(String titulacao, ExaminingBoard board, Long id, String name, String username, String password) {
         super(id, name, username, password);
         this.titulacao = titulacao;
+        this.board = board;
     }
 
     public String getTitulacao() {

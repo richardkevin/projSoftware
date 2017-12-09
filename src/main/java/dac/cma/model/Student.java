@@ -1,9 +1,13 @@
 package dac.cma.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
 public class Student extends User {
+    @Column(name="cod_disciplina")
+    private String codDisciplina;
+    
     public Student() {}
 
     public Student(Long id, String name, String username, String password) {
