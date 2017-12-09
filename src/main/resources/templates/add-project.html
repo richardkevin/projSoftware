@@ -18,7 +18,7 @@ and open the template in the editor.
             <p>Nome: <input type="text" th:field="*{name}" /></p>
             <p>Aluno: <input type="text" th:value="${session.userLogged.getName()}" readonly="readonly" /></p>
             <input type="hidden" th:id="student" th:name="student" th:value="${session.userLogged.getId()}" />
-            <p>Descrição: <input type="textarea" th:field="*{description}" /></p>
+            <p>Descrição: <textarea type="textarea" th:field="*{description}" /></p>
             <input type="submit" value="Submit" /> <input type="reset" value="Reset" />
         </form>
     </body>

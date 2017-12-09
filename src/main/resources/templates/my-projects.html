@@ -7,12 +7,23 @@ and open the template in the editor.
 <html>
     <head>
         <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
         <h1>Meus Projetos</h1>
-        
-        
+
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+            <tr th:each="project : ${listProjects}">
+                <td th:text="${project.id}"/>
+                <td th:text="${project.name}"/>
+                <td th:text="${project.description}"/>
+            </tr>
+        </table>
     </body>
 </html>
