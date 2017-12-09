@@ -1,8 +1,9 @@
 package dac.cma.controller;
 
 import dac.cma.model.Student;
-import dac.cma.repository.StudentRepository;
+import dac.cma.model.Teacher;
 import dac.cma.service.StudentService;
+import dac.cma.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HomeController {
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private TeacherService teacherService;
 
     @RequestMapping("/")
     public String home() {
@@ -51,6 +54,13 @@ public class HomeController {
             session.setAttribute("userLogged", student);
             session.setAttribute("loginError", null);
             return "redirect:/";
+        } else {
+            Teacher teacher = teacherService.efetuaLogin(username, password);
+            if (teacher != null) {
+                session.setAttribute("userLogged", teacher);
+                session.setAttribute("loginError", null);
+                return "redirect:/";
+            }
         }
         session.setAttribute("loginError", "Usuário ou senha incorretos");
         return "redirect:/login";
