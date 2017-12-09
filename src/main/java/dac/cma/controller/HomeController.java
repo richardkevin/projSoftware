@@ -18,11 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class HomeController {
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private StudentRepository studentRepository;
-    @Autowired
-    private ProjectRepository projectRepository;
 
     @RequestMapping("/")
     public String home() {
@@ -70,19 +66,6 @@ public class HomeController {
     public String logout(HttpSession session) {
       session.invalidate();
       return "redirect:/login";
-    }
-
-    @GetMapping("/add-project")
-    public String addProject(Model model) {
-        model.addAttribute("project", new Project());
-        return "add-project";
-    }
-
-    @PostMapping("/save-project")
-    public String addProject(@ModelAttribute Project project) {
-        projectRepository.save(project);
-
-        return "redirect:/my-projects";
     }
 
 //    acessing data

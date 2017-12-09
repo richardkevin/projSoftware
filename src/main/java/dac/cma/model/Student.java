@@ -1,8 +1,6 @@
 package dac.cma.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 
 @Entity
 public class Student extends User {
