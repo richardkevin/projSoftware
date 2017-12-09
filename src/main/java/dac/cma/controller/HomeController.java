@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class HomeController {
     @Autowired
-    private StudentRepository studentRepository;
-    @Autowired
     private StudentService studentService;
 
     @RequestMapping("/")
@@ -33,7 +31,7 @@ public class HomeController {
     
     @PostMapping("/save-student")
     public String signIn(@ModelAttribute Student student) {
-        studentRepository.save(student);
+        studentService.addStudent(student);
         return "redirect:/login";
     }
     

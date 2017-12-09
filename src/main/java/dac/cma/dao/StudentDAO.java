@@ -18,4 +18,8 @@ public class StudentDAO {
         }
         return null;
     }
+
+    public void addStudent(Student student) {
+        studentRepository.save(student);
+    }
 }

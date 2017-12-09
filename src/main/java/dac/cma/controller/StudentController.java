@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class StudentController {
     @Autowired
-    private ProjectRepository projectRepository;
-    @Autowired
     private ProjectService projectService;
 
 
@@ -32,7 +30,7 @@ public class StudentController {
 
     @PostMapping("/save-project")
     public String addProject(@ModelAttribute Project project) {
-        projectRepository.save(project);
+        projectService.save(project);
 
         return "redirect:/my-projects";
     }

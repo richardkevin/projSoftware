@@ -19,4 +19,7 @@ public class StudentService {
         return null;
     }
 
+    public void addStudent(Student student) {
+        studentDAO.addStudent(student);
+    }
 }
