@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <h1>Cadastrar professor</h1>
+
+        <form action="#" th:action="@{/save-teacher}" th:object="${teacher}" method="post">
+            <input type="hidden" th:field="*{id}" />
+            <p>Nome: <input type="text" th:field="*{name}" /></p>
+            <p>username: <input type="text" th:field="*{username}" /></p>
+            <p>password: <input type="text" th:field="*{password}" /></p>
+            <p>titulação: <input type="text" th:field="*{titulacao}" /></p>
+            <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+        </form>
+    </body>
+</html>

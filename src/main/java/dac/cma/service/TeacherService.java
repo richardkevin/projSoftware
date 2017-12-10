@@ -20,6 +20,10 @@ public class TeacherService {
         return null;
     }
 
+    public void addTeacher(Teacher teacher) {
+        teacherDAO.addTeacher(teacher);
+    }
+
     public void assignScore(float nota) {
         
     }

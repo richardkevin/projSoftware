@@ -19,4 +19,8 @@ public class TeacherDAO {
         return null;
     }
 
+    public void addTeacher(Teacher teacher) {
+        teacherRepository.save(teacher);
+    }
+
 }

@@ -15,6 +15,7 @@ public abstract class User {
     @Column(name="matricula")
     private Long id;
     String name;
+    @Column(unique = true)
     String username;
     String password;
 

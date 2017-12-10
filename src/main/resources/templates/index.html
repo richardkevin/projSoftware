@@ -13,6 +13,7 @@
     </div>
 
     <div th:if="${session.userLogged}">
+        <a th:if="${session.userLogged.getUsername().equals('Admin')}" href="add-teacher">Add Teacher</a>
         <a href="my-projects">My Projects</a>
         <a href="add-project">Add Project</a>
         <a href="logout">Logout</a>
