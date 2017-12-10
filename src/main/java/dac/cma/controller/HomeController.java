@@ -30,18 +30,6 @@ public class HomeController {
     public String home() {
         return "index";
     }
-
-    @GetMapping("/sign-in")
-    public String signInForm(Model model) {
-        model.addAttribute("student", new Student());
-        return "sign-in";
-    }
-    
-    @PostMapping("/save-student")
-    public String signIn(@ModelAttribute Student student) {
-        studentService.addStudent(student);
-        return "redirect:/login";
-    }
     
     @GetMapping("/login")
     public String login(HttpSession session) {
