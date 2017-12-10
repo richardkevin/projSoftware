@@ -88,6 +88,19 @@ public class HomeController {
         return "edit-project";
     }
 
+    @GetMapping("/project/delete/{id}")
+    public String editProject(HttpSession session, @PathVariable long id) {
+        User userLogged = (User) session.getAttribute("userLogged");
+
+        if (userLogged == null || !userLogged.getUsername().equals("Admin")) {
+            session.setAttribute("loginError", "Acesso não autorizado");
+            return "redirect:/login";
+        }
+
+        projectService.delete(projectService.findProjectById(id));
+        return "redirect:/my-projects";
+    }
+
     @PostMapping("/save-project")
     public String addProject(@ModelAttribute Project project) {
         projectService.save(project);

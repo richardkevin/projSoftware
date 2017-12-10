@@ -26,4 +26,8 @@ public class ProjectService {
     public Project findProjectById(long id) {
         return projectDAO.findProjectById(id);
     }
+
+    public void delete(Project project) {
+        projectDAO.delete(project);
+    }
 }

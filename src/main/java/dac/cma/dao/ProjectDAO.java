@@ -40,4 +40,8 @@ public class ProjectDAO {
         return projectRepository.findOne(id);
     }
 
+    public void delete(Project project) {
+        projectRepository.delete(project);
+    }
+
 }
