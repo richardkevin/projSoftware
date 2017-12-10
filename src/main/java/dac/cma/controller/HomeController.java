@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -73,6 +74,18 @@ public class HomeController {
         }
         model.addAttribute("project", new Project());
         return "add-project";
+    }
+
+    @GetMapping("/project/edit/{id}")
+    public String editProject(HttpSession session, @PathVariable long id, Model model) {
+        User userLogged = (User) session.getAttribute("userLogged");
+
+        if (userLogged == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("project", projectService.findProjectById(id));
+        return "edit-project";
     }
 
     @PostMapping("/save-project")
