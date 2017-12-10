@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body th:with="isTeacher=${session.userLogged.getClass().getSimpleName() == 'Teacher'}" >
+        <h1>Solicitar Orientador</h1>
+
+        <form action="#" th:action="@{/save-project}" th:object="${project}" method="post">
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{name}" />
+            <div th:if="@{${isTeacher}}">
+                <input type="hidden" th:value="${session.userLogged.getName()}" readonly="readonly" />
+                <input type="hidden" th:id="orientador" th:name="orientador" th:value="${session.userLogged.getId()}" />
+            </div>
+            <div th:unless="@{${isTeacher}}">
+                <input type="hidden" th:value="${session.userLogged.getName()}" readonly="readonly" />
+                <input type="hidden" th:id="student" th:name="student" th:value="${session.userLogged.getId()}" />
+            </div>
+            <p>Orientador:
+                <select th:field="*{orientador}">
+                    <option value="">Selecione</option>
+                    <option th:each="orientador: ${listTeachers}" th:value="${orientador.getId()}" th:text="${orientador.getName()}"/>
+                </select>
+            </p>
+            <textarea style="display: none;" th:field="*{description}" />
+            <input type="submit" value="Submit" />
+        </form>
+    </body>
+</html>

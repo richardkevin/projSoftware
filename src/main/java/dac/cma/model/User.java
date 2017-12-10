@@ -14,9 +14,11 @@ public abstract class User {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="matricula")
     private Long id;
+    @Column(nullable = false)
     String name;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     String username;
+    @Column(nullable = false)
     String password;
 
     public User() {}

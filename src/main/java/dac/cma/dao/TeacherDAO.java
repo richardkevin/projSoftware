@@ -2,6 +2,7 @@ package dac.cma.dao;
 
 import dac.cma.model.Teacher;
 import dac.cma.repository.TeacherRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +22,10 @@ public class TeacherDAO {
 
     public void addTeacher(Teacher teacher) {
         teacherRepository.save(teacher);
+    }
+
+    public List<Teacher> getAllTeachers() {
+        return (List<Teacher>) teacherRepository.findAll();
     }
 
 }

@@ -3,6 +3,7 @@ package dac.cma.service;
 import dac.cma.dao.TeacherDAO;
 import dac.cma.model.Student;
 import dac.cma.model.Teacher;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,5 +47,9 @@ public class TeacherService {
 
     public void registerProject() {
         
+    }
+
+    public List<Teacher> getAllTeachers() {
+        return teacherDAO.getAllTeachers();
     }
 }

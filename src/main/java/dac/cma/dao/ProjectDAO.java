@@ -36,4 +36,8 @@ public class ProjectDAO {
         return allProjects;
     }
 
+    public Project findProjectById(long id) {
+        return projectRepository.findOne(id);
+    }
+
 }

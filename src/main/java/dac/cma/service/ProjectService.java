@@ -22,4 +22,8 @@ public class ProjectService {
     public Object getAllTeacherProjects(Long id) {
         return projectDAO.getAllTeacherProjects(id);
     }
+
+    public Project findProjectById(long id) {
+        return projectDAO.findProjectById(id);
+    }
 }

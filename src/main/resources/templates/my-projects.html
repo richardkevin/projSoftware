@@ -13,11 +13,15 @@ and open the template in the editor.
     <body th:with="isTeacher=${session.userLogged.getClass().getSimpleName() == 'Teacher'}" >
         <h1>Meus Projetos</h1>
 
-        <table>
+        <a href="add-project">Add Project</a><br/>
+
+        <span th:if="${listProjects.isEmpty()}">Não há projetos cadastrados</span>
+        <table th:unless="${listProjects.isEmpty()}" >
             <tr>
                 <th>Name</th>
                 <th>Description</th>
                 <th th:text="@{${isTeacher}} ? 'Aluno' : 'Orientador'"/>
+                <th>Status</th>
                 <th>Editar</th>
                 <th>Excluir</th>
             </tr>
@@ -36,6 +40,7 @@ and open the template in the editor.
                         <a th:text="solicitar" th:href="@{'/project/request/' + ${project.id}}" />
                     </td>
                 </div>
+                <td th:text="${project.status}"/>
                 <td>
                     <a th:text="edit" th:href="@{'/project/edit/' + ${project.id}}" />
                 </td>
