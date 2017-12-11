@@ -1,16 +1,11 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>TODO supply a title</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
-    <body th:with="isTeacher=${session.userLogged.getClass().getSimpleName() == 'Teacher'}" >
+    <body th:with="isTeacher=${session.userLogged.getClass().getSimpleName() == 'Teacher'}, isAdmin=${session.userLogged.getUsername().equals('Admin')}" >
         <h1>Meus Projetos</h1>
 
         <a href="add-project">Add Project</a><br/>
@@ -20,27 +15,32 @@ and open the template in the editor.
             <tr>
                 <th>Name</th>
                 <th>Description</th>
-                <th th:text="@{${isTeacher}} ? 'Aluno' : 'Orientador'"/>
+                <th th:text="${isTeacher} ? 'Aluno' : 'Orientador'"/>
                 <th>Status</th>
+                <th>Nota</th>
                 <th>Editar</th>
                 <th>Excluir</th>
             </tr>
             <tr th:each="project : ${listProjects}">
                 <td th:text="${project.name}"/>
                 <td th:text="${project.description}"/>
-                <div th:if="@{${isTeacher}}">
+                <div th:if="${isTeacher}">
                     <td th:if="${project.getStudent()}" th:text="${project.getStudent().getName()}"/>
                     <td th:unless="${project.getStudent()}">
                         <a th:text="associar" th:href="@{'/project/associate/' + ${project.id}}" />
                     </td>
                 </div>
-                <div th:unless="@{${isTeacher}}">
+                <div th:unless="${isTeacher}">
                     <td th:if="${project.getOrientador()}" th:text="${project.getOrientador().getName()}" />
                     <td th:unless="${project.getOrientador()}">
                         <a th:text="solicitar" th:href="@{'/project/request/' + ${project.id}}" />
                     </td>
                 </div>
                 <td th:text="${project.status}"/>
+                <td>
+                    <a th:if="${isTeacher and project.status == 2}" th:text="Atribuir" th:href="@{'/project/assign-score/' + ${project.id}}"/>
+                    <span th:if="${project.status != 2}" th:text="${project.nota}" />
+                </td>
                 <td>
                     <a th:text="edit" th:href="@{'/project/edit/' + ${project.id}}" />
                 </td>
