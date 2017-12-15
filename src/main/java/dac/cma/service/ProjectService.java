@@ -30,4 +30,12 @@ public class ProjectService {
     public void delete(Project project) {
         projectDAO.delete(project);
     }
+
+    public List<Project> getActiveProjects() {
+        return projectDAO.getActiveProjects();
+    }
+
+    public void releaseEndSemester() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
