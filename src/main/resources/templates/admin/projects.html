@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <h1>Ahaza</h1>
+        <table th:unless="${projects.isEmpty()}" >
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Nota</th>
+                <th>Editar</th>
+                <th>Excluir</th>
+            </tr>
+            <tr th:each="project : ${projects}">
+                <td th:text="${project.name}"/>
+                <td th:text="${project.description}"/>
+                <td th:text="${project.status}"/>
+                <td th:text="${project.nota}" />
+                <td>
+                    <a th:text="edit" th:href="@{'/project/edit/' + ${project.id}}" />
+                </td>
+                <td><a th:text="delete" th:href="@{'/project/delete/' + ${project.id}}" /></td>
+            </tr>
+        </table>
+    </body>
+</html>

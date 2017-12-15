@@ -44,4 +44,19 @@ public class ProjectDAO {
         projectRepository.delete(project);
     }
 
+    public List<Project> getActiveProjects() {
+        List<Project> projects = new ArrayList<>();
+        for (Project project : projectRepository.findAll()) {
+            if (project.getStatus() == 1) {
+                projects.add(project);
+            }
+        }
+        return projects;
+    }
+
+    public void changeStatus(Project project, int status) {
+        project.setStatus(status);
+        projectRepository.save(project);
+    }
+
 }

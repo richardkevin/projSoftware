@@ -30,4 +30,14 @@ public class ProjectService {
     public void delete(Project project) {
         projectDAO.delete(project);
     }
+
+    public List<Project> getActiveProjects() {
+        return projectDAO.getActiveProjects();
+    }
+
+    public void releaseEndSemester() {
+        for (Project project : getActiveProjects()){
+            projectDAO.changeStatus(project, 2);
+        }
+    }
 }
