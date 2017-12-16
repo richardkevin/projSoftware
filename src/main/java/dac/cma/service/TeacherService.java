@@ -50,6 +50,9 @@ public class TeacherService {
     }
 
     public List<Teacher> getAllTeachers() {
-        return teacherDAO.getAllTeachers();
+        Teacher admin = teacherDAO.findTeacherByUsername("Admin");
+        List<Teacher> teachers = teacherDAO.getAllTeachers();
+        teachers.remove(admin);
+        return teachers;
     }
 }
