@@ -1,31 +1,38 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>TODO supply a title</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="/webjars/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"/>
     </head>
     <body th:with="isTeacher=${session.userLogged.getClass().getSimpleName() == 'Teacher'}" >
-        <h1>Adicionar Projeto</h1>
+        <div class="container">
+            <h1>Adicionar Projeto</h1>
 
-        <form action="#" th:action="@{/save-project}" th:object="${project}" method="post">
-            <input type="hidden" th:field="*{id}" />
-            <p>Nome: <input type="text" th:field="*{name}" /></p>
-            <div th:if="@{${isTeacher}}">
-                <p>Orientador: <input type="text" th:value="${session.userLogged.getName()}" readonly="readonly" /></p>
-                <input type="hidden" th:id="orientador" th:name="orientador" th:value="${session.userLogged.getId()}" />
-            </div>
-            <div th:unless="@{${isTeacher}}">
-                <p>Aluno: <input type="text" th:value="${session.userLogged.getName()}" readonly="readonly" /></p>
-                <input type="hidden" th:id="student" th:name="student" th:value="${session.userLogged.getId()}" />
-            </div>
-            <p>Descrição: <textarea type="textarea" th:field="*{description}" /></p>
-            <input type="submit" value="Submit" /> <input type="reset" value="Reset" />
-        </form>
+            <form action="#" th:action="@{/save-project}" th:object="${project}" method="post">
+                <input class="form-control" type="hidden" th:field="*{id}" />
+                <div class="form-group">
+                    <label>Nome:</label>
+                    <input class="form-control" type="text" th:field="*{name}" placeholder="Nome do projeto"/>
+                </div>
+                <div class="form-group" th:if="@{${isTeacher}}">
+                    <label>Orientador:</label>
+                    <input class="form-control" type="text" th:value="${session.userLogged.getName()}" readonly="readonly" />
+                    <input class="form-control" type="hidden" th:id="orientador" th:name="orientador" th:value="${session.userLogged.getId()}" />
+                </div>
+                <div class="form-group" th:unless="@{${isTeacher}}">
+                    <label>Aluno:</label>
+                    <input class="form-control" type="text" th:value="${session.userLogged.getName()}" readonly="readonly" />
+                    <input class="form-control" type="hidden" th:id="student" th:name="student" th:value="${session.userLogged.getId()}" />
+                </div>
+                <div class="form-group">
+                    <label>Descrição:</label>
+                    <textarea class="form-control" type="textarea" th:field="*{description}" placeholder="Descrição do projeto"/>
+                </div>
+                <button class="btn btn-primary" type="submit">Submit</button>
+                <button class="btn" type="reset">Reset</button>
+            </form>
+        </div>
     </body>
 </html>

@@ -4,48 +4,58 @@
         <title>TODO supply a title</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="/webjars/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"/>
     </head>
     <body th:with="isTeacher=${session.userLogged.getClass().getSimpleName() == 'Teacher'}, isAdmin=${session.userLogged.getUsername().equals('Admin')}" >
-        <h1>Meus Projetos</h1>
+        <div class="container">
+            <h1>Meus Projetos</h1>
 
-        <a href="add-project">Add Project</a><br/>
+            <a href="add-project">Add Project</a><br/>
 
-        <span th:if="${listProjects.isEmpty()}">Não há projetos cadastrados</span>
-        <table th:unless="${listProjects.isEmpty()}" >
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th th:text="${isTeacher} ? 'Aluno' : 'Orientador'"/>
-                <th>Nota</th>
-            </tr>
-            <tr th:each="project : ${listProjects}">
-                <td th:text="${project.name}"/>
-                <td th:text="${project.description}"/>
-                <div th:unless="${isTeacher}">
-                    <td th:if="${project.orientador}" th:text="${project.orientador.name}" />
-                    <td th:unless="${project.orientador}">
-                        <a th:text="solicitar" th:href="@{'/project/request/' + ${project.id}}" />
-                    </td>
-                </div>
-                <td th:text="${project.nota}" />
-                <div th:if="${isTeacher}">
-                    <td th:if="${project.student}" th:text="${project.student.name}"/>
-                    <td th:unless="${project.student}">
-                        <a th:text="associar" th:href="@{'/project/associate/' + ${project.id}}" />
-                    </td>
-                    <td th:if="${project.status == 2}">
-                        <a th:if="${project.student.codDisciplina == 'tcc1'}" th:href="@{'/project/assign-score/' + ${project.id}}">Atribuir</a>
-                        <a th:if="${project.student.codDisciplina == 'tcc2'}" th:href="@{'/project/defense-schedule/' + ${project.id}}">Agendar</a>
-                    </td>
-                </div>
-                <td>
-                    <a th:if="${isTeacher or project.status == 1}" th:text="edit" th:href="@{'/project/edit/' + ${project.id}}"/>
-                </td>
-                <td th:if="${isTeacher}">
-                    <a th:text="delete" th:href="@{'/project/delete/' + ${project.id}}" />
-                </td>
-            </tr>
-        </table>
-
+            <span th:if="${listProjects.isEmpty()}">Não há projetos cadastrados</span>
+            <table class="table table-hover" th:unless="${listProjects.isEmpty()}" >
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th th:text="${isTeacher} ? 'Aluno' : 'Orientador'"/>
+                        <th>Nota</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="project : ${listProjects}">
+                        <td th:text="${project.name}"/>
+                        <td th:text="${project.description}"/>
+                        <div th:unless="${isTeacher}">
+                            <td th:if="${project.orientador}" th:text="${project.orientador.name}" />
+                            <td th:unless="${project.orientador}">
+                                <a th:text="solicitar" th:href="@{'/project/request/' + ${project.id}}" />
+                            </td>
+                        </div>
+                        <td th:text="${project.nota}" />
+                        <div th:if="${isTeacher}">
+                            <td th:if="${project.student}" th:text="${project.student.name}"/>
+                            <td th:unless="${project.student}">
+                                <a th:text="associar" th:href="@{'/project/associate/' + ${project.id}}" />
+                            </td>
+                            <td th:if="${project.status == 2}">
+                                <a th:if="${project.student.codDisciplina == 'tcc1'}" th:href="@{'/project/assign-score/' + ${project.id}}">Atribuir</a>
+                                <a th:if="${project.student.codDisciplina == 'tcc2'}" th:href="@{'/project/defense-schedule/' + ${project.id}}">Agendar</a>
+                            </td>
+                        </div>
+                        <td>
+                            <a th:if="${isTeacher or project.status == 1}" th:text="edit" th:href="@{'/project/edit/' + ${project.id}}"/>
+                        </td>
+                        <td>
+                            <a th:if="${isTeacher}" th:text="delete" th:href="@{'/project/delete/' + ${project.id}}" />
+                        </td>
+                        <td/>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>

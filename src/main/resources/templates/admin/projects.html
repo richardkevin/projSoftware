@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>TODO supply a title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="/webjars/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"/>
     </head>
     <body>
         <h1>Ahaza</h1>
-        <table th:unless="${projects.isEmpty()}" >
+        <table class="table table-hover" th:unless="${projects.isEmpty()}" >
+          <thead>
             <tr>
                 <th>Name</th>
                 <th>Description</th>
@@ -20,6 +17,8 @@ and open the template in the editor.
                 <th>Editar</th>
                 <th>Excluir</th>
             </tr>
+          </thead>
+          <tbody>
             <tr th:each="project : ${projects}">
                 <td th:text="${project.name}"/>
                 <td th:text="${project.description}"/>
@@ -30,6 +29,7 @@ and open the template in the editor.
                 </td>
                 <td><a th:text="delete" th:href="@{'/project/delete/' + ${project.id}}" /></td>
             </tr>
+          </tbody>
         </table>
     </body>
 </html>

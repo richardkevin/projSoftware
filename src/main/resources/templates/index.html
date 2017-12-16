@@ -3,24 +3,27 @@
 <head>
     <title>DevAppCorp</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/webjars/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"/>
 </head>
 <body>
-    <h1>Olá <span th:text="${session.userLogged} ? ${session.userLogged.getName()} : ''" /> !</h1>
+    <div class="container">
 
-    <div th:unless="${session.userLogged}">
-        <a href="sign-in">Sign In</a>
-        <a href="login">Log In</a>
-    </div>
+        <h1>Olá <span th:text="${session.userLogged} ? ${session.userLogged.getName()} : ''" /> !</h1>
 
-    <div th:if="${session.userLogged}">
-        <div th:if="${session.userLogged.getUsername().equals('Admin')}">
-            <a href="add-teacher">Add Teacher</a>
-            <a href="semester-release">Encerramento semestral</a>
+        <div th:unless="${session.userLogged}">
+            <a href="sign-in">Sign In</a>
+            <a href="login">Log In</a>
         </div>
-        <a href="my-projects">My Projects</a>
-        <a href="add-project">Add Project</a>
-        <a href="logout">Logout</a>
+
+        <div th:if="${session.userLogged}">
+            <div th:if="${session.userLogged.getUsername().equals('Admin')}">
+                <a href="add-teacher">Add Teacher</a>
+                <a href="semester-release">Encerramento semestral</a>
+            </div>
+            <a href="my-projects">My Projects</a>
+            <a href="add-project">Add Project</a>
+            <a href="logout">Logout</a>
+        </div>
     </div>
-    
 </body>
 </html>

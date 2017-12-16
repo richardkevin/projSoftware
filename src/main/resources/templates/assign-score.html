@@ -4,19 +4,25 @@
         <title>TODO supply a title</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="/webjars/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"/>
     </head>
     <body>
+      <div class="container">
         <h1>Lançar nota</h1>
 
         <form action="#" th:action="@{/save-project}" th:object="${project}" method="post">
-            <input type="hidden" th:field="*{id}" />
-            <input type="hidden" th:field="*{name}" />
-            <input type="hidden" th:field="*{student}" />
-            <input type="hidden" th:field="*{orientador}"/>
-            <textarea style="display: none;" th:field="*{description}" />
-            <input type="hidden" th:id="status" th:name="status" th:value="3" />
-            <p>Nota: <input type="text" th:field="*{nota}" /></p>
-            <input type="submit" value="Submit" />
+            <input class="form-control" type="hidden" th:field="*{id}" />
+            <input class="form-control" type="hidden" th:field="*{name}" />
+            <input class="form-control" type="hidden" th:field="*{student}" />
+            <input class="form-control" type="hidden" th:field="*{orientador}"/>
+            <textarea class="form-control" style="display: none;" th:field="*{description}" />
+            <input class="form-control" type="hidden" th:id="status" th:name="status" th:value="3" />
+            <div class="form-group">
+                <label>Nota:</label>
+                <input class="form-control" type="text" th:field="*{nota}" />
+            </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
         </form>
+      </div>
     </body>
 </html>
