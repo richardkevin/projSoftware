@@ -40,4 +40,8 @@ public class ProjectService {
             projectDAO.changeStatus(project, 2);
         }
     }
+
+    public void changeStatus(long id, int status) {
+        projectDAO.changeStatus(projectDAO.findProjectById(id), status);
+    }
 }

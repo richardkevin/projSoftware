@@ -51,6 +51,18 @@ public class TeacherController {
         return "assign-score";
     }
     
+    @GetMapping("/project/assign-project/{id}")
+    public String assignProject(HttpSession session, @PathVariable long id, Model model) {
+        User userLogged = (User) session.getAttribute("userLogged");
+
+        if (userLogged == null) {
+            return "redirect:/login";
+        }
+
+        projectService.changeStatus(id, 1);
+
+        return "redirect:/my-projects";
+    }
     
     @GetMapping("/project/defense-schedule/{id}")
     public String defenseDchedule(HttpSession session, @PathVariable long id, Model model) {

@@ -34,12 +34,16 @@
                             <td th:unless="${project.orientador}">
                                 <a th:text="solicitar" th:href="@{'/project/request/' + ${project.id}}" />
                             </td>
+                            <td th:text="${project.nota}" />
                         </div>
-                        <td th:text="${project.nota}" />
                         <div th:if="${isTeacher}">
                             <td th:if="${project.student}" th:text="${project.student.name}"/>
                             <td th:unless="${project.student}">
                                 <a th:text="associar" th:href="@{'/project/associate/' + ${project.id}}" />
+                            </td>
+                            <td th:text="${project.nota}" />
+                            <td th:if="${project.status == 0}">
+                                <a th:href="@{'/project/assign-project/' + ${project.id}}">Validar</a>
                             </td>
                             <td th:if="${project.status == 2}">
                                 <a th:if="${project.student.codDisciplina == 'tcc1'}" th:href="@{'/project/assign-score/' + ${project.id}}">Atribuir</a>
