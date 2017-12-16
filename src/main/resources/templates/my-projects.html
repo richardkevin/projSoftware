@@ -16,35 +16,34 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th th:text="${isTeacher} ? 'Aluno' : 'Orientador'"/>
-                <th>Status</th>
                 <th>Nota</th>
-                <th>Editar</th>
-                <th>Excluir</th>
             </tr>
             <tr th:each="project : ${listProjects}">
                 <td th:text="${project.name}"/>
                 <td th:text="${project.description}"/>
-                <div th:if="${isTeacher}">
-                    <td th:if="${project.getStudent()}" th:text="${project.getStudent().getName()}"/>
-                    <td th:unless="${project.getStudent()}">
-                        <a th:text="associar" th:href="@{'/project/associate/' + ${project.id}}" />
-                    </td>
-                </div>
                 <div th:unless="${isTeacher}">
-                    <td th:if="${project.getOrientador()}" th:text="${project.getOrientador().getName()}" />
-                    <td th:unless="${project.getOrientador()}">
+                    <td th:if="${project.orientador}" th:text="${project.orientador.name}" />
+                    <td th:unless="${project.orientador}">
                         <a th:text="solicitar" th:href="@{'/project/request/' + ${project.id}}" />
                     </td>
                 </div>
-                <td th:text="${project.status}"/>
+                <td th:text="${project.nota}" />
+                <div th:if="${isTeacher}">
+                    <td th:if="${project.student}" th:text="${project.student.name}"/>
+                    <td th:unless="${project.student}">
+                        <a th:text="associar" th:href="@{'/project/associate/' + ${project.id}}" />
+                    </td>
+                    <td th:if="${project.status == 2}">
+                        <a th:if="${project.student.codDisciplina == 'tcc1'}" th:href="@{'/project/assign-score/' + ${project.id}}">Atribuir</a>
+                        <a th:if="${project.student.codDisciplina == 'tcc2'}" th:href="@{'/project/defense-schedule/' + ${project.id}}">Agendar</a>
+                    </td>
+                </div>
                 <td>
-                    <a th:if="${isTeacher and project.status == 2}" th:text="Atribuir" th:href="@{'/project/assign-score/' + ${project.id}}"/>
-                    <span th:if="${project.status != 2}" th:text="${project.nota}" />
+                    <a th:if="${isTeacher or project.status == 1}" th:text="edit" th:href="@{'/project/edit/' + ${project.id}}"/>
                 </td>
-                <td>
-                    <a th:text="edit" th:href="@{'/project/edit/' + ${project.id}}" />
+                <td th:if="${isTeacher}">
+                    <a th:text="delete" th:href="@{'/project/delete/' + ${project.id}}" />
                 </td>
-                <td><a th:text="delete" th:href="@{'/project/delete/' + ${project.id}}" /></td>
             </tr>
         </table>
 

@@ -1,5 +1,6 @@
 package dac.cma.model;
 
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 public class Project {
@@ -22,8 +27,11 @@ public class Project {
     private Teacher orientador;
     private String description;
     @Column(nullable = false)
-    private int status; //0 = nao ativo, 1 = ativo, 2 = fim do semestre, 4 = finalizado
+    private int status; //0 = nao ativo, 1 = ativo, 2 = fim do semestre, 3 = defesa, 4 = finalizado
     private float nota;
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso = ISO.DATE)
+    private Date dt_defense;
 
     public Project() {}
 
@@ -91,5 +99,13 @@ public class Project {
 
     public void setNota(float nota) {
         this.nota = nota;
+    }
+
+    public Date getDt_defense() {
+        return dt_defense;
+    }
+
+    public void setDt_defense(Date dt_defense) {
+        this.dt_defense = dt_defense;
     }
 }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <h1>Agendar Defesa</h1>
+
+        <form action="#" th:action="@{/save-project}" th:object="${project}" method="post">
+            <div class="form-group">
+              <input class="form-control" type="hidden" th:field="*{id}" />
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="hidden" th:field="*{name}" />
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="hidden" th:field="*{student}" />
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="hidden" th:field="*{orientador}"/>
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" style="display: none;" th:field="*{description}" />
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="hidden" th:id="status" th:name="status" th:value="3" />
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="hidden" th:field="*{nota}" />
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="datetime-local" th:field="*{dt_defense}" />
+            </div>
+
+            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btn" type="reset">Reset</button>
+        </form>
+    </body>
+</html>

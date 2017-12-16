@@ -43,4 +43,13 @@ public class Student extends User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getCodDisciplina() {
+        return codDisciplina;
+    }
+
+    public void setCodDisciplina(String codDisciplina) {
+        this.codDisciplina = codDisciplina;
+    }
+
 }
