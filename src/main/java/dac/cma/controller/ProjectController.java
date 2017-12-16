@@ -41,7 +41,7 @@ public class ProjectController {
     }
 
     @GetMapping("/project/delete/{id}")
-    public String editProject(HttpSession session, @PathVariable long id) {
+    public String deleteProject(HttpSession session, @PathVariable long id) {
         User userLogged = (User) session.getAttribute("userLogged");
 
         if (userLogged == null || !userLogged.getUsername().equals("Admin")) {
@@ -54,7 +54,7 @@ public class ProjectController {
     }
 
     @PostMapping("/save-project")
-    public String addProject(@ModelAttribute Project project) {
+    public String saveProject(@ModelAttribute Project project) {
         projectService.save(project);
 
         return "redirect:/my-projects";
