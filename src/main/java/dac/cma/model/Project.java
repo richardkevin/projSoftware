@@ -27,7 +27,7 @@ public class Project {
     private Teacher orientador;
     private String description;
     @Column(nullable = false)
-    private int status; //0 = nao ativo, 1 = ativo, 2 = fim do semestre, 3 = defesa, 4 = finalizado
+    private int status; //0 = nao ativo, 1 = ativo, 2 = fim do semestre, 3 = convidar banca, 4 = agendar defesa, 5 = finalizado
     private float nota;
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(iso = ISO.DATE)

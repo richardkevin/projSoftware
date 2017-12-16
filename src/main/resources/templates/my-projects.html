@@ -47,7 +47,13 @@
                             </td>
                             <td th:if="${project.status == 2}">
                                 <a th:if="${project.student.codDisciplina == 'tcc1'}" th:href="@{'/project/assign-score/' + ${project.id}}">Atribuir</a>
-                                <a th:if="${project.student.codDisciplina == 'tcc2'}" th:href="@{'/project/defense-schedule/' + ${project.id}}">Agendar</a>
+                                <a th:if="${project.student.codDisciplina == 'tcc2'}" th:href="@{'/project/invite-board-examining/' + ${project.id}}">Convidar</a>
+                            </td>
+                            <td th:if="${project.status == 3}">
+                                <a th:href="@{'/project/defense-schedule/' + ${project.id}}">Agendar</a>
+                            </td>
+                            <td th:if="${project.status == 4}">
+                                <a th:href="@{'/project/assign-score/' + ${project.id}}">Avaliar</a>
                             </td>
                         </div>
                         <td>

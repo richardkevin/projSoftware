@@ -1,7 +1,9 @@
 package dac.cma.controller;
 
+import dac.cma.model.ExaminingBoard;
 import dac.cma.model.Teacher;
 import dac.cma.model.User;
+import dac.cma.service.ExaminingBoardService;
 import dac.cma.service.ProjectService;
 import dac.cma.service.TeacherService;
 import javax.servlet.http.HttpSession;
@@ -19,6 +21,9 @@ public class TeacherController {
     private ProjectService projectService;
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private ExaminingBoardService examiningBoardService;
+
 
     @GetMapping("/add-teacher")
     public String addTeacherForm(HttpSession session, Model model) {
@@ -74,5 +79,26 @@ public class TeacherController {
 
         model.addAttribute("project", projectService.findProjectById(id));
         return "defense-schedule";
+    }
+
+    @GetMapping("/project/invite-board-examining/{id}")
+    public String inviteBoardExamining(HttpSession session, @PathVariable long id, Model model) {
+        User userLogged = (User) session.getAttribute("userLogged");
+
+        if (userLogged == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("project_id", id);
+        model.addAttribute("listTeachers", teacherService.getAllTeachers());
+        model.addAttribute("examiningBoard", new ExaminingBoard());
+        return "invite-board-examining";
+    }
+
+    @PostMapping("/project/invite-board-examining")
+    public String inviteBoardExamining(@ModelAttribute ExaminingBoard board) {
+        examiningBoardService.save(board);
+        projectService.changeStatus(board.getProject().getId(), 3);
+        return "redirect:/my-projects";
     }
 }
