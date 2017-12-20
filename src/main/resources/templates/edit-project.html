@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="/webjars/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"/>
     </head>
-    <body>
+    <body th:with="isTeacher=${session.userLogged.getClass().getSimpleName() == 'Teacher'}" >
       <div class="container">
         <h1>Editar Projeto</h1>
 
@@ -18,21 +18,23 @@
             </div>
             <div class="form-group">
                 <label>Aluno:</label>
-                <input class="form-control" type="text" th:value="${project.getStudent().getName()}" readonly="readonly" />
+                <input class="form-control" type="text" th:value="${project.student.name}" readonly="readonly" />
+                <input class="form-control" type="hidden" th:id="student" th:name="student" th:value="${project.student.id}" />
             </div>
-            <input class="form-control" type="hidden" th:id="student" th:name="student" th:value="${project.getStudent().getId()}" />
-            <div class="form-group">
-                <label>Orientador:</label>
-                <input class="form-control" type="text" th:value="${project.getOrientador().getName()}" readonly="readonly" />
-            </div>
-            <input class="form-control" type="hidden" th:id="orientador" th:name="orientador" th:value="${project.getOrientador().getId()}" />
             <div class="form-group">
                 <label>Descrição:</label>
                 <textarea class="form-control" type="textarea" th:field="*{description}" />
             </div>
-            <div class="form-group">
-                <label>Nota:</label>
-                <input class="form-control" type="text" th:field="*{nota}" />
+            <div th:if="@{${isTeacher}}">
+                <div class="form-group">
+                    <label>Orientador:</label>
+                    <input class="form-control" type="text" th:value="${project.orientador.name}" readonly="readonly" />
+                    <input class="form-control" type="hidden" th:id="orientador" th:name="orientador" th:value="${project.orientador.id}" />
+                </div>
+                <div class="form-group">
+                    <label>Nota:</label>
+                    <input class="form-control" type="text" th:field="*{nota}" />
+                </div>
             </div>
             <button class="btn btn-primary" type="submit">Submit</button>
             <button class="btn" type="reset">Reset</button>

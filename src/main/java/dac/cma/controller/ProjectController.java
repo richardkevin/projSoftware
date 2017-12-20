@@ -31,12 +31,14 @@ public class ProjectController {
     @GetMapping("/project/edit/{id}")
     public String editProject(HttpSession session, @PathVariable long id, Model model) {
         User userLogged = (User) session.getAttribute("userLogged");
+        Project project = projectService.findProjectById(id);
 
-        if (userLogged == null) {
+        if (userLogged == null || project.getStudent() != userLogged || project.getOrientador() != userLogged) {
+            session.setAttribute("loginError", "Acesso não autorizado");
             return "redirect:/login";
         }
 
-        model.addAttribute("project", projectService.findProjectById(id));
+        model.addAttribute("project", project);
         return "edit-project";
     }
 
@@ -54,7 +56,14 @@ public class ProjectController {
     }
 
     @PostMapping("/save-project")
-    public String saveProject(@ModelAttribute Project project) {
+    public String saveProject(HttpSession session, @ModelAttribute Project project) {
+        User userLogged = (User) session.getAttribute("userLogged");
+
+        if (userLogged == null || !userLogged.getUsername().equals("Admin")) {
+            session.setAttribute("loginError", "Acesso não autorizado");
+            return "redirect:/login";
+        }
+
         projectService.save(project);
 
         return "redirect:/my-projects";

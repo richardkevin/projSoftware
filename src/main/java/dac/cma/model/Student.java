@@ -6,12 +6,13 @@ import javax.persistence.Entity;
 @Entity
 public class Student extends User {
     @Column(name="cod_disciplina")
-    private String codDisciplina;
+    private String codDisciplina = "tcc1";
     
     public Student() {}
 
-    public Student(Long id, String name, String username, String password) {
+    public Student(Long id, String name, String username, String password, String codDisciplina) {
         super(id, name, username, password);
+        this.codDisciplina = codDisciplina;
     }
 
     @Override
