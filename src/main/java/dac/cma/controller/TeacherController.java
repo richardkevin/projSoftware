@@ -6,6 +6,7 @@ import dac.cma.model.User;
 import dac.cma.service.ExaminingBoardService;
 import dac.cma.service.ProjectService;
 import dac.cma.service.TeacherService;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -89,8 +90,11 @@ public class TeacherController {
             return "redirect:/login";
         }
 
+        List<Teacher> teachers = teacherService.getAllTeachers();
+        teachers = teachers.remove(userLogged);
+
         model.addAttribute("project_id", id);
-        model.addAttribute("listTeachers", teacherService.getAllTeachers());
+        model.addAttribute("listTeachers", teachers);
         model.addAttribute("examiningBoard", new ExaminingBoard());
         return "invite-board-examining";
     }

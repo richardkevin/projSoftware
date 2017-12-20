@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="stylesheet" href="/webjars/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"/>
-    </head>
+    <head th:replace="fragments/header :: head"/>
     <body th:with="isTeacher=${session.userLogged.getClass().getSimpleName() == 'Teacher'}" >
+        <div th:replace="fragments/navbar :: navbar"/>
+
         <div class="container">
             <h1>Adicionar Projeto</h1>
 

@@ -1,0 +1,31 @@
+<nav class="navbar navbar-light bg-primary" th:fragment="navbar">
+    <a class="navbar-brand" href="/">DevAppCorp</a>
+    <ul class="navbar-nav mr-auto">
+        <div th:unless="${session.userLogged}">
+            <li class="nav-item">
+                <a class="nav-link" href="sign-in">Sign In</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="login">Log In</a>
+            </li>
+        </div>
+
+        <div th:if="${session.userLogged}" th:with="isAdmin=${session.userLogged.getUsername().equals('Admin')}">
+                <li class="nav-item" th:if="${isAdmin}">
+                    <a class="nav-link" href="add-teacher">Add Teacher</a>
+                </li>
+                <li class="nav-item" th:if="${isAdmin}">
+                    <a class="nav-link" href="semester-release">Encerramento semestral</a>
+                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="my-projects">Projects</a>
+            </li>
+            <li class="nav-item"  th:unless="${session.userLogged.getUsername().equals('Admin')}">
+                <a class="nav-link" href="add-project">Add Project</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="logout">Logout</a>
+            </li>
+        </div>
+    </ul>
+</nav>

@@ -38,7 +38,7 @@ public class ProjectDAO {
 
     public Project findProjectById(long id) {
         return projectRepository.findOne(id);
-    }
+    }  
 
     public void delete(Project project) {
         projectRepository.delete(project);

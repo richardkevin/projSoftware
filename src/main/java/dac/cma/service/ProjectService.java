@@ -2,6 +2,7 @@ package dac.cma.service;
 
 import dac.cma.dao.ProjectDAO;
 import dac.cma.model.Project;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,5 +44,17 @@ public class ProjectService {
 
     public void changeStatus(long id, int status) {
         projectDAO.changeStatus(projectDAO.findProjectById(id), status);
+    }
+
+    public Object getProjects(int quantity) {
+        List<Project> lastProjects = new ArrayList<>();
+
+        for (Project project : getActiveProjects()) {
+            if (lastProjects.size() <= quantity) {
+                lastProjects.add(project);
+            }
+        }
+    
+        return lastProjects;
     }
 }

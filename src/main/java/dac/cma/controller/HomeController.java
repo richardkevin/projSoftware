@@ -2,6 +2,7 @@ package dac.cma.controller;
 
 import dac.cma.model.Student;
 import dac.cma.model.Teacher;
+import dac.cma.service.ProjectService;
 import dac.cma.service.StudentService;
 import dac.cma.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpSession;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -18,9 +20,12 @@ public class HomeController {
     private StudentService studentService;
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private ProjectService projectService;
 
     @RequestMapping("/")
-    public String home() {
+    public String home(Model model) {
+        model.addAttribute("projects", projectService.getProjects(5));
         return "index";
     }
     

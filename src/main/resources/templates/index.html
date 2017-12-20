@@ -1,29 +1,36 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>DevAppCorp</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="/webjars/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"/>
+    <head th:replace="fragments/header :: head"/>
 </head>
 <body>
+    <div th:replace="fragments/navbar :: navbar"/>
+
     <div class="container">
 
-        <h1>Olá <span th:text="${session.userLogged} ? ${session.userLogged.getName()} : ''" /> !</h1>
+        <h1 th:if="${session.userLogged}">Olá <span th:text="${session.userLogged} ? ${session.userLogged.getName()} : ''" /> !</h1><br /><br />
 
-        <div th:unless="${session.userLogged}">
-            <a href="sign-in">Sign In</a>
-            <a href="login">Log In</a>
-        </div>
+        <h2>Últimos projetos</h2>
 
-        <div th:if="${session.userLogged}">
-            <div th:if="${session.userLogged.getUsername().equals('Admin')}">
-                <a href="add-teacher">Add Teacher</a>
-                <a href="semester-release">Encerramento semestral</a>
-            </div>
-            <a href="my-projects">My Projects</a>
-            <a href="add-project">Add Project</a>
-            <a href="logout">Logout</a>
-        </div>
+        <span th:if="${projects.isEmpty()}">Não há projetos cadastrados</span>
+        <table class="table table-hover" th:unless="${projects.isEmpty()}" >
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Aluno</th>
+                    <th>Orientador</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="project : ${projects}">
+                    <td th:text="${project.name}"/>
+                    <td th:text="${project.description}"/>
+                    <td th:text="${project.student} ? ${project.student.name} : ''" />
+                    <td th:text="${project.orientador} ? ${project.orientador.name} : ''" />
+                </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>
